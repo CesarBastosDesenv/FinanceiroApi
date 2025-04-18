@@ -26,7 +26,20 @@ builder.Services.AddDbContext<ApiContext>(Options => {
 builder.Services.AddScoped<IAtivoRepository, AtivoRepository>();    
 builder.Services.AddScoped<IAtivoService, AtivoService>(); 
 
+builder.Services.AddCors(
+    options => {
+        options.AddPolicy("cors",builder => {
+            builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+    }
+);
+
 var app = builder.Build();
+
+app.UseCors("cors");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
